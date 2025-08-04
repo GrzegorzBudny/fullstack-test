@@ -14,6 +14,8 @@ class ReceiptRegistration extends Model
         'phone',
         'receipt_number',
         'purchase_date',
+        'store_id',
+        'is_winner',
         'receipt_image_path',
         'contest_answer',
         'consent_regulations',

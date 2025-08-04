@@ -1,5 +1,16 @@
 <form id="formid" class="flex flex-col items-center pb-12" enctype="multipart/form-data" method="post" action="{{ route('register-receipt') }}">
     @csrf
+    @if (session('register-success'))
+        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-6">
+            {{ session('register-success') }}
+        </div>
+    @endif
+
+    @if (session('error'))
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6">
+            {{ session('error') }}
+        </div>
+    @endif
     <div class="flex w-full xl:w-[65rem] justify-center flex-col lg:flex-row">
         <div class="mt-10 space-y-2 lg:w-3/5 w-full">
                 <x-forms.field>
@@ -32,6 +43,20 @@
                     <x-layout.paragraph class="text-red-950 font-sans registererror"><small>{{ $message }}</small></x-layout.paragraph>
                     @enderror
                 </x-forms.field>
+                <x-forms.field>
+                    <select name="store_id" id="store_id" required
+                        class="block w-full rounded-2xl bg-cookie-misty-rose py-3 px-4 text-xxl placeholder-black font-sans border-0 focus:outline focus:outline-2 focus:outline-cookie-verdigris">
+                        <option value="">Wybierz sklep*</option>
+                        @foreach ($stores as $store)
+                            <option value="{{ $store->id }}" {{ old('store_id') == $store->id ? 'selected' : '' }}>
+                                {{ $store->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('store_id')
+                        <x-layout.paragraph class="text-red-950 font-sans registererror"><small>{{ $message }}</small></x-layout.paragraph>
+                    @enderror
+                </x-forms.field> 
                 <x-forms.field>
                     <x-forms.file placeholder="Wyślij paragon*" labelFor="receipt-image" name="receipt-image" id="receipt-image" accept="image/jpeg, image/jpg, image/png" />
                     @error('receipt-image')
